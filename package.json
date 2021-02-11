@@ -1,0 +1,24 @@
+{
+  "name": "buzzle-action-upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spiring-co/buzzle-action-upload.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spiring-co/buzzle-action-upload/issues"
+  },
+  "homepage": "https://github.com/spiring-co/buzzle-action-upload#readme",
+  "dependencies": {
+    "amazon-s3-uri": "^0.1.0",
+    "aws-sdk": "^2.841.0"
+  }
+}
