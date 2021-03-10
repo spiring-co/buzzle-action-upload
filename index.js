@@ -175,12 +175,12 @@ const upload = (job, settings, src, params, onProgress, onComplete) => {
 module.exports = (
   job,
   settings,
-  { input, params, ...options },
+  { input, params, onStart, onComplete, ...options },
   type
 ) => {
+  onStart()
   return new Promise((resolve, reject) => {
     let onProgress;
-    let onComplete;
 
     if (type != "postrender") {
       throw new Error(
@@ -201,22 +201,22 @@ module.exports = (
       onProgress = (job, progress) => options.onProgress(job, progress);
     }
 
-    if (
-      options.hasOwnProperty("onComplete") &&
-      typeof options["onComplete"] == "function"
-    ) {
-      onComplete = (job, file) => options.onComplete(job, file);
-    }
+    // if (
+    //   options.hasOwnProperty("onComplete") &&
+    //   typeof options["onComplete"] == "function"
+    // ) {
+    //   onComplete = (job, file) => onComplete(job, file);
+    // }
 
     settings.logger.log(`[${job.uid}] starting action-upload action`);
-
-    let requirePackage = "";
     try {
       upload(job, settings, input, params || {}, onProgress, (job, file) => {
         job.output = file;
+        onComplete()
         resolve(job);
       });
     } catch (e) {
+      onComplete()
       reject(job);
     }
   });
