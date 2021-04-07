@@ -150,7 +150,7 @@ const upload = (job, settings, src, params, onProgress, onComplete) => {
       Key: params.key,
       ACL: params.acl,
       Body: file,
-      ContentType: params.ContentType || "audio/mpeg"
+      ContentType: params.ContentType || "video/mp4"
     };
     if (params.metadata) awsParams.Metadata = params.metadata;
 
