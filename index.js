@@ -103,7 +103,7 @@ const download = (job, settings, src, dest, params, type) => {
   });
 };
 
-const upload = (job, settings, src, params, onProgress, onComplete) => {
+const upload = (job, settings, src, params, tags, onProgress, onComplete) => {
   const file = fs.createReadStream(src);
 
   if (!params.endpoint && !params.region) {
@@ -161,7 +161,7 @@ const upload = (job, settings, src, params, onProgress, onComplete) => {
       : s3instanceWithRegion(params.region, credentials);
 
     s3instance
-      .upload(awsParams, (err, data) => {
+      .upload(awsParams, { tags }, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -182,7 +182,7 @@ module.exports = (
   onStart()
   return new Promise((resolve, reject) => {
     let onProgress;
-
+    let tags = null
     if (type != "postrender") {
       throw new Error(
         `Action ${name} can be only run in postrender mode, you provided: ${type}.`
@@ -202,6 +202,10 @@ module.exports = (
       onProgress = (job, progress) => options.onProgress(job, progress);
     }
 
+    if (options.hasOwnProperty('tags') && options.tags.hasOwnProperty('length') && options.tags.length) {
+      tags = options.tags
+    }
+
     // if (
     //   options.hasOwnProperty("onComplete") &&
     //   typeof options["onComplete"] == "function"
@@ -211,7 +215,7 @@ module.exports = (
 
     settings.logger.log(`[${job.uid}] starting action-upload action`);
     try {
-      upload(job, settings, input, params || {}, onProgress, (job, file) => {
+      upload(job, settings, input, params || {}, tags || [], onProgress, (job, file) => {
         job.output = file;
         onComplete()
         resolve(job);
