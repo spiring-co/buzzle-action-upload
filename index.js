@@ -137,7 +137,7 @@ const upload = (job, settings, src, params, tags, onProgress, onComplete) => {
   };
 
   const output = params.endpoint
-    ? `${params.endpoint}/${params.bucket}/${params.key}`
+    ? (`${params.endpoint}/${params.key}`).replace("https://", `https://${params.bucket}.`)// upload is digital ocean
     : `https://s3-${params.region}.amazonaws.com/${params.bucket}/${params.key}`;
   settings.logger.log(`[${job.uid}] action-upload: input file ${src}`);
   settings.logger.log(`[${job.uid}] action-upload: output file ${output}`);
