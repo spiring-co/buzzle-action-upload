@@ -19,6 +19,6 @@
   "homepage": "https://github.com/spiring-co/buzzle-action-upload#readme",
   "dependencies": {
     "amazon-s3-uri": "^0.1.0",
-    "aws-sdk": "^2.841.0"
+    "aws-sdk": "^2.923.0"
   }
 }
