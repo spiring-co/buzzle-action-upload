@@ -165,7 +165,10 @@ const upload = (job, settings, src, params, tags, onProgress, onComplete) => {
         if (err) {
           reject(err);
         } else {
-          onUploadComplete(data.Location);
+          onUploadComplete(output ||
+            (data.Location.startsWith("http")
+              ? data.Location
+              : `https://${data.Location}`));
           resolve();
         }
       })
